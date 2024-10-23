@@ -16,7 +16,7 @@
     "watch:modules": "nodemon",
     "prepare": "husky",
     "commit": "git-cz",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier \"{src,apps,libs,test}/**/*.ts\" --cache --write",
     "build": "nest build",
     "start": "nest start",
     "start:dev": "nest start --watch & npm run watch:modules",
@@ -50,6 +50,8 @@
     "@types/jest": "^29.5.13",
     "@types/node": "^22.7.8",
     "@types/supertest": "^6.0.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "commitizen": "^4.3.1",
     "cz-git": "^1.10.1",
     "eslint": "^9.13.0",
@@ -67,7 +69,8 @@
     "tsconfig-paths": "^4.2.0",
     "typeorm": "^0.3.20",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.11.0"
+    "typescript-eslint": "^8.11.0",
+    "zod": "^3.23.8"
   },
   "jest": {
     "moduleFileExtensions": [

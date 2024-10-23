@@ -1,3 +1,3 @@
 export enum Modules {
-  USERS = 'users'
+  USERS = 'users',
 }

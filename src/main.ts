@@ -4,14 +4,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import type { INestApplication } from '@nestjs/common';
 import { Modules } from './modules.enum';
+import { logger } from './common/middlewares/logger.middleware';
 
 function setupSwagger(app: INestApplication) {
-  const config = new DocumentBuilder()
-    .setTitle('API 文档')
-    .setDescription('API 描述')
-    .setVersion('1.0')
-    .addTag(Modules.USERS, '用户相关接口')
-    .build();
+  const config = new DocumentBuilder().setTitle('API 文档').setDescription('API 描述').setVersion('1.0').addTag(Modules.USERS, '用户相关接口').build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);
