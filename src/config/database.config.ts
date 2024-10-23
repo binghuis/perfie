@@ -11,7 +11,7 @@ export default registerAs(
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    entities: [join(__dirname, '../', '**/**.entity{.ts,.js}')],
+    entities: [join(__dirname, '../modules', '**/**.entity.{ts,js}')],
     synchronize: true,
   }),
 );
