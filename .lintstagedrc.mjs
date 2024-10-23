@@ -1,4 +1,4 @@
 export default {
-  '**/*/*.{md,json}': ['npm run format --no-error-on-unmatched-pattern'],
-  '**/*/*.{mjs,cjs,js,ts}': ['npm run lint', 'npm run format'],
+  '*.{md,json}': ['prettier --write --no-error-on-unmatched-pattern'],
+  '*.{mjs,cjs,js,ts}': ['eslint --fix', 'prettier --write'],
 };
