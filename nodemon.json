@@ -1,5 +1,4 @@
 {
   "watch": ["src/modules"],
-  "ext": "ts",
-  "exec": "ts-node scripts/generate-modules-index.ts"
+  "exec": "ts-node scripts/gen-mods-enums.ts"
 }

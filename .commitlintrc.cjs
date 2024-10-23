@@ -1,10 +1,10 @@
+const { RuleConfigSeverity } = require('cz-git');
 /** @type {import('cz-git').UserConfig} */
-import { RuleConfigSeverity } from 'cz-git';
 
-export default {
+module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    'type-enum': [RuleConfigSeverity.Error, 'always', ['foo']],
+    'type-enum': [RuleConfigSeverity.Error, 'always'],
   },
   prompt: {
     useEmoji: true,

@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:latest
@@ -7,4 +9,11 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - '5432:5432'
+      - 5432:5432
+    restart: always
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    networks:
+      - perfie_network
+networks:
+  perfie_network:
