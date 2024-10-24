@@ -1,5 +1,5 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Repository, Connection, getRepository } from 'typeorm';
+import { Injectable, HttpException, HttpStatus, BadRequestException } from '@nestjs/common';
+import { Repository, DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from './users.entity';
 
@@ -8,7 +8,7 @@ export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
     private readonly usersRepository: Repository<UsersEntity>,
-    private connection: Connection,
+    private dataSource: DataSource,
   ) {}
 
   async findAll(): Promise<UsersEntity[]> {
@@ -19,32 +19,16 @@ export class UsersService {
     const { name } = user;
     const u = await this.usersRepository.findOne({ where: { name } });
     if (u) {
-      throw new HttpException(
-        {
-          message: 'Input data validation failed',
-          error: 'name must be unique.',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new BadRequestException('name must be unique');
     }
     return await this.usersRepository.save(user);
   }
 
   async createMany(users: UsersEntity[]) {
-    const queryRunner = this.connection.createQueryRunner();
-
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    try {
-      users.forEach(async (user) => {
-        await queryRunner.manager.getRepository(UsersEntity).save(user);
-      });
-
-      await queryRunner.commitTransaction();
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-    } finally {
-      await queryRunner.release();
-    }
+    await this.dataSource.transaction(async (manager) => {
+      for (const user of users) {
+        await manager.getRepository(UsersEntity).save(user);
+      }
+    });
   }
 }
