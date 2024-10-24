@@ -5,6 +5,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import type { INestApplication } from '@nestjs/common';
 import { Modules } from './modules.enum';
 import { logger } from './common/middlewares/logger.middleware';
+import { AuthGuard } from './common/guards/auth.guard';
 
 function setupSwagger(app: INestApplication) {
   const config = new DocumentBuilder().setTitle('API 文档').setDescription('API 描述').setVersion('1.0').addTag(Modules.USERS, '用户相关接口').build();
@@ -17,6 +18,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalGuards(new AuthGuard());
+
   app.setGlobalPrefix('api');
   setupSwagger(app);
 
