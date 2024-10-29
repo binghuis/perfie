@@ -17,7 +17,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalGuards(new AuthGuard());
+  // app.useGlobalGuards(new AuthGuard());
 
   app.setGlobalPrefix('api');
   setupSwagger(app);

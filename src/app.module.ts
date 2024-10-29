@@ -10,7 +10,8 @@ import { logger } from './common/middlewares/logger.middleware';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [databaseConfig],
+      envFilePath: ['.env', '.env.test', '.env.production'],
+      load: [],
       cache: true,
     }),
     TypeOrmModule.forRootAsync(databaseConfig.asProvider()),
