@@ -13,27 +13,32 @@ function extractModuleName(filePath: string): string {
   return match ? match[1] : '';
 }
 
+function extractFileName(filePath: string): string {
+  const parts = filePath.split(path.sep);
+  return `${parts[parts.length - 2]}/${parts[parts.length - 1]}`;
+}
+
 function updateEnums() {
-  const modules = fg.globSync(path.join(modulesDir, '**/*/*.module.ts'), { onlyFiles: true, unique: true, caseSensitiveMatch: false });
+  const modules = fg.globSync(path.join(modulesDir, '**/*/*.module.ts'), {
+    onlyFiles: true,
+    unique: true,
+    caseSensitiveMatch: false,
+  });
+
   const moduleNames = modules.map((path) => extractModuleName(path));
 
   const modulesEnumContent = `export enum Modules {
-  ${moduleNames.map((name) => `${name.toUpperCase()} = '${name}',`).join(',\n  ')}
+  ${moduleNames.map((name) => `${name.toUpperCase()} = '${name}',`).join(',\n')}
 }`;
 
   fs.writeFileSync(modulesEnumFile, modulesEnumContent);
-  consola.success('更新文件:', extractName(modulesEnumFile));
+  consola.success('更新文件:', extractFileName(modulesEnumFile));
 }
 
 const watcher = chokidar.watch(`${modulesDir}`, {
   ignored: (path, stats) => stats?.isFile() && !path.endsWith('module.ts'),
   persistent: true,
 });
-
-function extractName(filePath: string): string {
-  const parts = filePath.split(path.sep);
-  return `${parts[parts.length - 2]}/${parts[parts.length - 1]}`;
-}
 
 watcher
   .on('error', (error) => {
