@@ -4,7 +4,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import type { INestApplication } from '@nestjs/common';
 import { Modules } from './modules.enum';
-import { logger } from './common/middlewares/logger.middleware';
 import { AuthGuard } from './common/guards/auth.guard';
 
 function setupSwagger(app: INestApplication) {
