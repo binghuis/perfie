@@ -1,4 +1,0 @@
-{
-  "watch": ["src/modules"],
-  "exec": "ts-node scripts/gen-mods-enums.ts"
-}
