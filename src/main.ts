@@ -6,19 +6,6 @@ import type { INestApplication } from '@nestjs/common';
 import { AuthGuard } from './common/guards/auth.guard';
 import { Modules } from './generated/modules.enum';
 import { apiReference } from '@scalar/nestjs-api-reference';
-function setupSwagger(app: INestApplication) {
-  const config = new DocumentBuilder().setTitle('API 文档').setDescription('API 描述').setVersion('1.0').addTag(Modules.USERS, '用户相关接口').build();
-  const document = SwaggerModule.createDocument(app, config);
-  app.use(
-    '/refs',
-    apiReference({
-      spec: {
-        content: document,
-      },
-    }),
-  );
-  SwaggerModule.setup('docs', app, document);
-}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -31,4 +18,12 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3000);
 }
+
 bootstrap();
+
+function setupSwagger(app: INestApplication) {
+  const config = new DocumentBuilder().setTitle('API 文档').setDescription('API 描述').setVersion('1.0').addTag(Modules.USERS, '用户相关接口').build();
+  const document = SwaggerModule.createDocument(app, config);
+  app.use('/refs', apiReference({ spec: { content: document } }));
+  SwaggerModule.setup('docs', app, document);
+}
