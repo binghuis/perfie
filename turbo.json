@@ -13,5 +13,7 @@
       "persistent": true,
       "cache": false
     }
-  }
+  },
+  "ui": "tui",
+  "globalDependencies": []
 }
